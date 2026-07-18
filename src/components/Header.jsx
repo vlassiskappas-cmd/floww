@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import LogoMark from './LogoMark.jsx'
 
 const navItems = [
   { label: 'Services', to: '/services' },
@@ -15,14 +16,7 @@ export default function Header() {
       <div className="header__inner">
         <Link to="/" className="logo" onClick={() => setOpen(false)}>
           <span className="logo__mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none">
-              <path
-                d="M16 3V13M16 19V29M3 16H13M19 16H29M6.6 6.6L12.6 12.6M19.4 19.4L25.4 25.4M25.4 6.6L19.4 12.6M12.6 19.4L6.6 25.4"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-            </svg>
+            <LogoMark />
           </span>
           <span className="logo__word">flow</span>
         </Link>
