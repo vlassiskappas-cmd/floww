@@ -1,10 +1,12 @@
+import FitText from './FitText.jsx'
+
 export default function Hero() {
   return (
     <>
       <section className="hero hero--full">
         <h1 className="hero__title hero__title--cutout hero__title--wide">
-          <span className="hero__cutout-line">Startup</span>
-          <span className="hero__cutout-line">Flow</span>
+          <FitText text="Startup" className="hero__cutout-line" />
+          <FitText text="Flow" className="hero__cutout-line" />
         </h1>
 
         <a
