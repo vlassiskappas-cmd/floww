@@ -12,6 +12,7 @@
 
   --max-width: 1200px;
   --gutter: clamp(1.5rem, 5vw, 4rem);
+  --header-h: 73px;
 
   color-scheme: dark;
 }
@@ -251,21 +252,29 @@ img {
 
 .hero {
   position: relative;
-  padding: clamp(3rem, 10vw, 7rem) 0 clamp(2rem, 6vw, 4rem);
   text-align: center;
   overflow: hidden;
+}
+
+.hero--full {
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100dvh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem var(--gutter) 5rem;
+}
+
+.hero-intro {
+  text-align: center;
+  padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(2rem, 6vw, 4rem);
 }
 
 .hero__inner {
   max-width: 780px;
   margin: 0 auto;
   padding: 0 var(--gutter);
-}
-
-.hero__wide {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 calc(var(--gutter) / 2);
 }
 
 .hero__title {
@@ -278,7 +287,11 @@ img {
   line-height: 0.88;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  margin: 0 0 1rem;
+  margin: 0;
+}
+
+.hero__title--wide {
+  max-width: 1320px;
 }
 
 .hero__cutout-line {
@@ -334,9 +347,15 @@ img {
   height: 44px;
   border: 1px solid var(--color-border);
   border-radius: 50%;
-  margin: 2.5rem auto 0;
   color: var(--color-text-muted);
   transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.hero--full .scroll-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
 }
 
 .scroll-indicator svg {
