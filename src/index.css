@@ -312,23 +312,21 @@ img {
   background-color: var(--color-accent);
   background-image: url('/pattern-row-a.svg'), url('/pattern-row-b.svg');
   background-repeat: repeat, repeat;
-  background-size: var(--tile-w) auto, var(--tile-w) auto;
-  background-position-x: 0px, 0px;
+  /* Dividing the tile size by the current zoom scale (inherited from
+     --zoom-scale set on .hero--full while zooming) and pinning both
+     layers' position to the same shared zoom origin (via --bg-pos-x/-y
+     set in JS) keeps the pattern's on-screen size and phase constant even
+     though this element's own box is being scaled up — it reads as a
+     stationary backdrop behind a growing "window", not something that
+     stretches with the letters. */
+  background-size: calc(var(--tile-w) / var(--zoom-scale, 1)) auto,
+    calc(var(--tile-w) / var(--zoom-scale, 1)) auto;
+  background-position: var(--bg-pos-x, 0px) var(--bg-pos-y, 0px),
+    var(--bg-pos-x, 0px) var(--bg-pos-y, 0px);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  animation: pattern-marquee 22s linear infinite;
-}
-
-.hero-zoom-reveal {
-  height: calc(100vh - var(--header-h));
-  height: calc(100dvh - var(--header-h));
-  background-color: var(--color-accent);
-  background-image: url('/pattern-row-a.svg'), url('/pattern-row-b.svg');
-  background-repeat: repeat, repeat;
-  background-size: var(--tile-w) auto, var(--tile-w) auto;
-  background-position-x: 0px, 0px;
   animation: pattern-marquee 22s linear infinite;
 }
 
