@@ -303,6 +303,7 @@ img {
 .hero__cutout-line {
   flex-shrink: 0;
   white-space: nowrap;
+  background-color: var(--color-accent);
   background-image: url('/pattern-startupflow.svg');
   background-repeat: repeat;
   background-size: clamp(14.4rem, 46.8vw, 37.8rem) auto;
