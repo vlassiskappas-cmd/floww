@@ -1,15 +1,16 @@
 export default function Hero() {
   return (
     <section className="hero">
-      <div className="hero__inner">
+      <div className="hero__wide">
         <p className="eyebrow">— Startup studio</p>
 
-        <h1 className="hero__title">
-          We build brands
-          <br />
-          for <span className="text-accent">founders.</span>
+        <h1 className="hero__title hero__title--cutout">
+          <span className="hero__cutout-line">Startup</span>
+          <span className="hero__cutout-line">Flow</span>
         </h1>
+      </div>
 
+      <div className="hero__inner">
         <p className="hero__subtitle">
           StartupFlow is the startup-focused division of Frame Creative
           Group — identity, launch websites and pitch collateral, built by a
