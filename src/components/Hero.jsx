@@ -1,10 +1,26 @@
+import { useState } from 'react'
+import FitText from './FitText.jsx'
+
 export default function Hero() {
+  const [titleFontSize, setTitleFontSize] = useState(null)
+
   return (
     <>
       <section className="hero hero--full">
         <h1 className="hero__title hero__title--cutout hero__title--wide">
-          <span className="hero__cutout-line">Startup</span>
-          <span className="hero__cutout-line">Flow</span>
+          <FitText
+            text="Startup"
+            className="hero__cutout-line"
+            onFit={setTitleFontSize}
+          />
+          <span className="fit-text">
+            <span
+              className="hero__cutout-line"
+              style={titleFontSize ? { fontSize: titleFontSize } : undefined}
+            >
+              Flow
+            </span>
+          </span>
         </h1>
 
         <a
