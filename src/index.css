@@ -295,12 +295,13 @@ img {
 }
 
 .fit-text {
-  display: block;
+  display: flex;
   width: 100%;
+  justify-content: center;
 }
 
 .hero__cutout-line {
-  display: inline-block;
+  flex-shrink: 0;
   white-space: nowrap;
   background-image: url('/pattern-startupflow.svg');
   background-repeat: repeat;
