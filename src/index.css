@@ -13,6 +13,7 @@
   --max-width: 1200px;
   --gutter: clamp(1.5rem, 5vw, 4rem);
   --header-h: 73px;
+  --tile-w: clamp(14.4rem, 46.8vw, 37.8rem);
 
   color-scheme: dark;
 }
@@ -256,6 +257,11 @@ img {
   overflow: hidden;
 }
 
+.hero-zoom-stage {
+  position: relative;
+  overflow: hidden;
+}
+
 .hero--full {
   height: calc(100vh - var(--header-h));
   height: calc(100dvh - var(--header-h));
@@ -304,13 +310,42 @@ img {
   flex-shrink: 0;
   white-space: nowrap;
   background-color: var(--color-accent);
-  background-image: url('/pattern-startupflow.svg');
-  background-repeat: repeat;
-  background-size: clamp(14.4rem, 46.8vw, 37.8rem) auto;
+  background-image: url('/pattern-row-a.svg'), url('/pattern-row-b.svg');
+  background-repeat: repeat, repeat;
+  background-size: var(--tile-w) auto, var(--tile-w) auto;
+  background-position-x: 0px, 0px;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  animation: pattern-marquee 22s linear infinite;
+}
+
+.hero-zoom-reveal {
+  height: calc(100vh - var(--header-h));
+  height: calc(100dvh - var(--header-h));
+  background-color: var(--color-accent);
+  background-image: url('/pattern-row-a.svg'), url('/pattern-row-b.svg');
+  background-repeat: repeat, repeat;
+  background-size: var(--tile-w) auto, var(--tile-w) auto;
+  background-position-x: 0px, 0px;
+  animation: pattern-marquee 22s linear infinite;
+}
+
+@keyframes pattern-marquee {
+  from {
+    background-position-x: 0px, 0px;
+  }
+  to {
+    background-position-x: var(--tile-w), calc(var(--tile-w) * -1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cutout-line,
+  .hero-zoom-reveal {
+    animation: none;
+  }
 }
 
 .hero__subtitle {
