@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react'
 
 const MEASURE_FONT_SIZE = 100
 
-export default function FitText({ text, className, onFit }) {
+export default function FitText({ text, className, onFit, maxFontSize }) {
   const containerRef = useRef(null)
   const textRef = useRef(null)
 
@@ -16,7 +16,8 @@ export default function FitText({ text, className, onFit }) {
       el.style.fontSize = `${MEASURE_FONT_SIZE}px`
       const naturalWidth = el.scrollWidth
       if (naturalWidth > 0 && availableWidth > 0) {
-        const size = (availableWidth / naturalWidth) * MEASURE_FONT_SIZE
+        let size = (availableWidth / naturalWidth) * MEASURE_FONT_SIZE
+        if (maxFontSize) size = Math.min(size, maxFontSize)
         el.style.fontSize = `${size}px`
         onFit?.(size)
       }
@@ -35,7 +36,7 @@ export default function FitText({ text, className, onFit }) {
       cancelled = true
       resizeObserver.disconnect()
     }
-  }, [text, onFit])
+  }, [text, onFit, maxFontSize])
 
   return (
     <span ref={containerRef} className="fit-text">

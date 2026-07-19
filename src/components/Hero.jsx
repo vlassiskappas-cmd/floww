@@ -1,17 +1,44 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import FitText from './FitText.jsx'
+
+// Matches the line-height set on .hero__title--cutout in index.css. The
+// browser lays out (and centers, and clips) each line using this box, so
+// the height budget must be based on it, not the tighter glyph-ink extent.
+const LINE_HEIGHT = 0.88
+const LINE_COUNT = 2
 
 export default function Hero() {
   const [titleFontSize, setTitleFontSize] = useState(null)
+  const [maxFontSize, setMaxFontSize] = useState(null)
+  const heroFullRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const el = heroFullRef.current
+    if (!el) return
+
+    const measure = () => {
+      const styles = getComputedStyle(el)
+      const paddingTop = parseFloat(styles.paddingTop) || 0
+      const paddingBottom = parseFloat(styles.paddingBottom) || 0
+      const availableHeight = el.clientHeight - paddingTop - paddingBottom
+      setMaxFontSize(availableHeight / (LINE_COUNT * LINE_HEIGHT))
+    }
+
+    measure()
+    const resizeObserver = new ResizeObserver(measure)
+    resizeObserver.observe(el)
+    return () => resizeObserver.disconnect()
+  }, [])
 
   return (
     <>
-      <section className="hero hero--full">
+      <section className="hero hero--full" ref={heroFullRef}>
         <h1 className="hero__title hero__title--cutout hero__title--wide">
           <FitText
             text="Startup"
             className="hero__cutout-line"
             onFit={setTitleFontSize}
+            maxFontSize={maxFontSize}
           />
           <span className="fit-text">
             <span
