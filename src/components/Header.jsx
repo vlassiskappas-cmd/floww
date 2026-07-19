@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import LogoMark from './LogoMark.jsx'
 
@@ -10,9 +10,27 @@ const navItems = [
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const headerRef = useRef(null)
+
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+
+    const setHeaderHeight = () => {
+      document.documentElement.style.setProperty(
+        '--header-h',
+        `${el.offsetHeight}px`,
+      )
+    }
+
+    setHeaderHeight()
+    const observer = new ResizeObserver(setHeaderHeight)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <header className="header">
+    <header className="header" ref={headerRef}>
       <div className="header__inner">
         <Link to="/" className="logo" onClick={() => setOpen(false)}>
           <span className="logo__mark" aria-hidden="true">
