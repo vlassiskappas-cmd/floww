@@ -305,7 +305,7 @@ img {
   white-space: nowrap;
   background-image: url('/pattern-startupflow.svg');
   background-repeat: repeat;
-  background-size: 3.6em auto;
+  background-size: clamp(14.4rem, 46.8vw, 37.8rem) auto;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
