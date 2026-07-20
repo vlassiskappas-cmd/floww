@@ -283,51 +283,50 @@ img {
   padding: 0 var(--gutter);
 }
 
-.hero__title {
-  font-size: clamp(2.5rem, 7vw, 4.75rem);
-  margin-bottom: 1.5rem;
-}
+/* The visible "STARTUP"/"FLOW" cutout is drawn by an SVG mask (see
+   Hero.jsx) rather than clipping a background to real DOM text: masking
+   lets the pattern layer behind it stay completely unscaled — and
+   therefore pixel-sharp and jitter-free — while only the mask's hole
+   geometry grows during the scroll-zoom. Clipping the background of the
+   scaling element itself (the earlier approach) forced the browser to
+   rasterize the pattern at an ever-shrinking size and then blow that same
+   bitmap back up via the transform, which is inherently blurry, and
+   compensating its position every scroll frame from measured (post-
+   transform) rects amplified any sub-pixel measurement noise by the same
+   large factor, which read as violent shaking at high zoom.
 
-.hero__title--cutout {
-  font-size: clamp(4.5rem, 19vw, 22rem);
-  line-height: 0.88;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.hero__title--wide {
-  width: 100%;
-}
-
-.fit-text {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-.hero__cutout-line {
-  flex-shrink: 0;
-  white-space: nowrap;
+   .hero__pattern is the stationary backdrop: a plain, never-transformed
+   box painted with the tiled pattern. .hero__frame sits on top, is the
+   element that actually scales, and is a solid --color-bg box with a
+   mask cut out of it so the pattern shows through only inside the
+   letters. */
+.hero__pattern {
   background-color: var(--color-accent);
   background-image: url('/pattern-row-a.svg'), url('/pattern-row-b.svg');
   background-repeat: repeat, repeat;
-  /* Dividing the tile size by the current zoom scale (inherited from
-     --zoom-scale set on .hero--full while zooming) and pinning both
-     layers' position to the same shared zoom origin (via --bg-pos-x/-y
-     set in JS) keeps the pattern's on-screen size and phase constant even
-     though this element's own box is being scaled up — it reads as a
-     stationary backdrop behind a growing "window", not something that
-     stretches with the letters. */
-  background-size: calc(var(--tile-w) / var(--zoom-scale, 1)) auto,
-    calc(var(--tile-w) / var(--zoom-scale, 1)) auto;
-  background-position: var(--bg-pos-x, 0px) var(--bg-pos-y, 0px),
-    var(--bg-pos-x, 0px) var(--bg-pos-y, 0px);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  background-size: var(--tile-w) auto, var(--tile-w) auto;
   animation: pattern-marquee 22s linear infinite;
+}
+
+.hero__frame {
+  background-color: var(--color-bg);
+  mask-image: url('#hero-cutout-mask');
+  -webkit-mask-image: url('#hero-cutout-mask');
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.hero__mask-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.hero__cutout-glyph {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 @keyframes pattern-marquee {
@@ -340,10 +339,21 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__cutout-line,
-  .hero-zoom-reveal {
+  .hero__pattern {
     animation: none;
   }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .hero__subtitle {
